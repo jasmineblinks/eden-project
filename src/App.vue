@@ -1,40 +1,84 @@
+<script setup></script>
+
 <template>
-  <div>
-    <h2>Selected Dog</h2>
-    <div class="dog-info">
-      <img :src="dogImage" alt="Selected Dog Image" width="400" height="400" />
-      <p>Breed: {{ dogInfo.breed }}</p>
-      <p v-if="dogInfo.subBreeds.length > 0">Sub-breeds: {{ dogInfo.subBreeds.join(', ') }}</p>
+  <div class="app">
+    <h1>Dog API Example</h1>
+    <div class="dog-list">
+      <div v-for="dogImage in dogImages" :key="dogImage" class="dog-image">
+        <img :src="dogImage" alt="Dog Image" @click="showDogInfo(dogImage)" />
+      </div>
     </div>
+    <router-view v-if="selectedDog" :dog-info="selectedDogInfo"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    dogInfo: {
-      type: Object,
-      required: true
+  data() {
+    return {
+      dogImages: [],
+      selectedDog: null,
+      selectedDogInfo: null
     }
   },
-  computed: {
-    dogImage() {
-      // Assuming the breed is always the first part of the dog image URL
-      const breed = this.dogInfo.breed
-      return `https://images.dog.ceo/breeds/${breed}/n021${breed}_001.jpg`
+  created() {
+    this.fetchDogImages()
+  },
+  methods: {
+    fetchDogImages() {
+      const apiUrl = 'https://dog.ceo/api/breeds/image/random/100'
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          this.dogImages = data.message
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
+    },
+    showDogInfo(dogImage) {
+      this.selectedDog = dogImage
+      this.fetchDogInfo(dogImage)
+    },
+    fetchDogInfo(dogImage) {
+      const breed = dogImage.split('/')[4]
+      const apiUrl = `https://dog.ceo/api/breed/${breed}/list`
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          this.selectedDogInfo = {
+            breed: breed,
+            subBreeds: data.message
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
     }
   }
 }
 </script>
 
 <style scoped>
-.dog-info {
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dog-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dog-image {
+  flex: 0 0 25%;
+  padding: 10px;
   text-align: center;
 }
 
-.dog-info img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
+.dog-image img {
+  width: 100%;
+  cursor: pointer;
 }
 </style>
