@@ -96,7 +96,7 @@ body {
 
 /* Header styles */
 header {
-  background-color: #333;
+  background-color: #3A5F0B;
   color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
@@ -129,7 +129,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #333;
+  color: #fff;
   text-decoration: none;
   font-weight: 600;
 }
@@ -199,7 +199,7 @@ main {
 
 /* Footer styles */
 footer {
-  background-color: #333;
+  background-color: #3A5F0B;
   color: #fff;
   text-align: center;
   padding: 20px;
