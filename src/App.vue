@@ -96,8 +96,8 @@ body {
 
 /* Header styles */
 header {
-  color: #333;
-  background-color: #fff;
+  background-color: #333;
+  color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
 }
@@ -170,7 +170,7 @@ main {
 }
 
 .btn-primary {
-  background-color: #37a1e6;
+  background-color:#3A5F0B;
 }
 
 .dog-list {
